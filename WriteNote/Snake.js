@@ -163,15 +163,26 @@ class SnakeGame {
 
     update() {
         // Move snake
-        const head = {x: this.snake[0].x + this.dx, y: this.snake[0].y + this.dy};
+        let head = {x: this.snake[0].x + this.dx, y: this.snake[0].y + this.dy};
         
-        // Check wall collision
-        if (head.x < 0 || head.x >= this.tileCount || head.y < 0 || head.y >= this.tileCount) {
-            this.gameOver();
-            return;
+        // Implement through-walls functionality
+        if (head.x < 0) {
+            head.x = this.tileCount - 1;
+            this.showTeleportEffect();
+        } else if (head.x >= this.tileCount) {
+            head.x = 0;
+            this.showTeleportEffect();
         }
         
-        // Check self collision
+        if (head.y < 0) {
+            head.y = this.tileCount - 1;
+            this.showTeleportEffect();
+        } else if (head.y >= this.tileCount) {
+            head.y = 0;
+            this.showTeleportEffect();
+        }
+        
+        // Check self collision (game over condition remains)
         for (let segment of this.snake) {
             if (head.x === segment.x && head.y === segment.y) {
                 this.gameOver();
@@ -186,6 +197,9 @@ class SnakeGame {
             this.score += 10;
             this.updateScoreDisplay();
             this.generateFood();
+            
+            // Add visual feedback for eating food
+            this.showEatEffect();
         } else {
             this.snake.pop();
         }
@@ -274,6 +288,27 @@ class SnakeGame {
 
     updateHighScoreDisplay() {
         this.highScoreElement.textContent = this.highScore;
+    }
+
+    showTeleportEffect() {
+        const effect = document.createElement('div');
+        effect.className = 'teleport-effect';
+        document.querySelector('.game-area').appendChild(effect);
+        
+        setTimeout(() => {
+            effect.remove();
+        }, 300);
+    }
+
+    showEatEffect() {
+        // Add a quick flash effect when eating food
+        const canvas = this.canvas;
+        const originalStyle = canvas.style.boxShadow;
+        canvas.style.boxShadow = '0 0 30px #4ecdc4';
+        
+        setTimeout(() => {
+            canvas.style.boxShadow = originalStyle;
+        }, 200);
     }
 
     gameOver() {
