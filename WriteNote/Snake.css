@@ -13,6 +13,40 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    position: relative;
+}
+
+/* Back Button Styles */
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 1em;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.back-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+.back-button:active {
+    transform: translateY(0);
 }
 
 .game-container {
@@ -24,6 +58,7 @@ body {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     max-width: 500px;
     width: 100%;
+    margin-top: 40px; /* Added margin to account for back button */
 }
 
 .header {
@@ -47,7 +82,7 @@ body {
     background: rgba(255, 255, 255, 0.1);
     padding: 15px;
     border-radius: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .score, .high-score {
@@ -57,6 +92,19 @@ body {
 
 .score span, .high-score span {
     color: #4ecdc4;
+}
+
+.game-mode {
+    margin-bottom: 15px;
+}
+
+.mode-indicator {
+    background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: bold;
+    display: inline-block;
 }
 
 .game-area {
@@ -138,6 +186,10 @@ body {
     color: #cccccc;
 }
 
+.instructions p {
+    margin: 5px 0;
+}
+
 /* Responsive controls for mobile */
 @media (max-width: 768px) {
     .controls {
@@ -147,12 +199,20 @@ body {
     .game-container {
         margin: 20px;
         padding: 20px;
+        margin-top: 60px; /* More margin on mobile for back button */
     }
     
     #gameCanvas {
         width: 100%;
         max-width: 400px;
         height: auto;
+    }
+    
+    .back-button {
+        top: 10px;
+        left: 10px;
+        padding: 10px 16px;
+        font-size: 0.9em;
     }
 }
 
@@ -194,4 +254,25 @@ body {
     color: #4ecdc4;
     margin-bottom: 15px;
     font-size: 2em;
+}
+
+/* Teleport effect */
+.teleport-effect {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(78, 205, 196, 0.3) 0%, transparent 70%);
+    animation: teleport 0.3s ease-out;
+    pointer-events: none;
+}
+
+@keyframes teleport {
+    0% {
+        opacity: 1;
+        transform: scale(0.5);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.5);
+    }
 }
