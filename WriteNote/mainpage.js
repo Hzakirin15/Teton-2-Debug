@@ -69,6 +69,12 @@ document.addEventListener('DOMContentLoaded', function() {
             icon: "icon/math.png",
             bgColor: "#222f58ff"  // Blue accent
         },
+        { 
+            name: "JBOG Swap", 
+            file: "JBOGSwap.html", 
+            icon: "icon/swapping.png",
+            bgColor: "#f0d802ff"  // Blue accent
+        },
     ];
 
     
@@ -110,4 +116,5 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize the app
     createAppIcons();
+
 });
