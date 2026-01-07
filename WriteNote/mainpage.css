@@ -49,6 +49,7 @@ body {
 
 .apps-grid {
     display: grid;
+    align-content: start;
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Responsive grid */
     gap: 5px; /* Increased gap */
     padding: 30px; /* Increased padding */
@@ -151,4 +152,5 @@ body {
     max-height: 100%;
     /* Optional: add filters for dark theme consistency */
     filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+
 }
