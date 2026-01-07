@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JBOG SWAP TETON 2</title>
+    <link rel="stylesheet" href="JBOGSwap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <a href="http://127.0.0.1:3000/mainpage.html" class="back-button">← Back</a>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-exchange-alt"></i> JBOG SWAP TETON 2</h1>
+            
+        </header>
+
+        <main>
+            <h2><i class="fas fa-exchange-alt"></i>  Pin JBOG Location</h2>
+            <div class="content-box">
+                    <!-- Image Display -->
+                    <div class="image-container">
+                        <div class="image-header">
+                            <h3><i class="fas fa-image"></i> Swap JBOG Diagram</h3>
+                            <div class="image-controls">
+                                <button id="zoomInBtn" class="control-btn">
+                                    <i class="fas fa-search-plus"></i>
+                                </button>
+                                <button id="zoomOutBtn" class="control-btn">
+                                    <i class="fas fa-search-minus"></i>
+                                </button>
+                                <button id="resetZoomBtn" class="control-btn">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="image-wrapper">
+                            <img id="swapImage" src="NotePic/SwapJBOGpic.png" alt="Swap JBOG Diagram">
+                            
+                        </div>
+
+                        <div class="notes-content">
+                            <div class="notes-display" id="notesDisplay">
+                                <!-- Notes will be displayed here -->
+                                <div class="note-item">
+                                    <span class="note-number">1.</span>
+                                    <span class="note-text">Verify Pin Baseboard Connector based on failure location. Ex: [JBOG0 Accelerator 1] & [JBOG1 Accelerator 0]</span>
+                                </div>
+                                <div class="note-item">
+                                    <span class="note-number">2.</span>
+                                    <span class="note-text">Take photo OK or NG and post on Bay-Group</span>
+                                </div>
+                                <div class="note-item">
+                                    <span class="note-number">3.</span>
+                                    <span class="note-text">If damaged, Create ticket to replace Baseboard and RPM</span>
+                                </div>
+                                <div class="note-item">
+                                    <span class="note-number">4.</span>
+                                    <span class="note-text">If not damaged, Swap JBOG location based on below suggestion</span>
+                                </div>
+                                <div class="note-item">
+                                    <span class="note-number">5.</span>
+                                    <span class="note-text">Please also check pin connector baseboard for other JBOG that want to swap</span>
+                                </div>
+                            </div>
+                            
+                            <div class="notes-edit" id="notesEdit" style="display: none;">
+                                <textarea id="notesTextarea" placeholder="Enter your notes here (one per line)..."></textarea>
+                                <div class="edit-controls">
+                                    <button id="saveNotesBtn" class="save-btn">
+                                        <i class="fas fa-save"></i> Save Notes
+                                    </button>
+                                    <button id="cancelEditBtn" class="cancel-btn">
+                                        <i class="fas fa-times"></i> Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+ 
+                    </div>
+                </div>
+
+
+            <h2><i class="fa-solid fa-anchor"></i>  Accelerator Failure</h2>
+            <div class="selection-section">
+                <div class="accelerator-box">
+                    <h2><i class="fas fa-microchip"></i> Accelerator 1</h2>
+                    <div class="accelerator-selector" id="accelerator1">
+                        <div class="option" data-value="JBOG0">JBOG0</div>
+                        <div class="option" data-value="JBOG1">JBOG1</div>
+                        <div class="option" data-value="JBOG2">JBOG2</div>
+                        <div class="option" data-value="JBOG3">JBOG3</div>
+                        <div class="option" data-value="JBOG4">JBOG4</div>
+                        <div class="option" data-value="JBOG5">JBOG5</div>
+                        <div class="option" data-value="JBOG6">JBOG6</div>
+                        <div class="option" data-value="JBOG7">JBOG7</div>
+                    </div>
+                    <div class="selected-display">
+                        Selected: <span id="selected1">None</span>
+                    </div>
+                </div>
+
+                <div class="swap-icon">
+                    <i class="fas fa-sync-alt"></i>
+                </div>
+
+                <div class="accelerator-box">
+                    <h2><i class="fas fa-microchip"></i> Accelerator 2</h2>
+                    <div class="accelerator-selector" id="accelerator2">
+                        <div class="option" data-value="JBOG0">JBOG0</div>
+                        <div class="option" data-value="JBOG1">JBOG1</div>
+                        <div class="option" data-value="JBOG2">JBOG2</div>
+                        <div class="option" data-value="JBOG3">JBOG3</div>
+                        <div class="option" data-value="JBOG4">JBOG4</div>
+                        <div class="option" data-value="JBOG5">JBOG5</div>
+                        <div class="option" data-value="JBOG6">JBOG6</div>
+                        <div class="option" data-value="JBOG7">JBOG7</div>
+                    </div>
+                    <div class="selected-display">
+                        Selected: <span id="selected2">None</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="output-section">
+                <h2><i class="fas fa-cogs"></i> Swap Instructions with Serial Numbers</h2>
+                <div class="output-container">
+                    <div class="output-header">
+                        <div class="output-title">Swap Result with JBOG SN</div>
+                        <button id="copyAllBtn" class="copy-btn">
+                            <i class="far fa-copy"></i> Copy All Instructions
+                        </button>
+                    </div>
+                    
+                    <div class="swap-instructions" id="swapInstructions">
+                        <div class="placeholder">
+                            <i class="fas fa-info-circle"></i>
+                            <p>Select two different JBOGs from the accelerators above to see swap instructions.</p>
+                            <p class="example">Example output: Swap JBOG6(WAA7HN55102GY) <> JBOG1(WAA7HN55103GY), Swap JBOG7(WAA7HN55104GY) <> JBOG4(WAA7HN55102XY)</p>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>JBOG Swap System &copy; 2026 | Please Avoid TE Fault cause A3</p>
+        </footer>
+    </div>
+
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i> <span>Instructions copied to clipboard!</span>
+    </div>
+
+    <script src="JBOGSwap.js"></script>
+</body>
+</html>
