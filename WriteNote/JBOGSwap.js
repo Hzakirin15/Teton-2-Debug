@@ -10,6 +10,7 @@ const swapRules = {
     "JBOG1-JBOG3": ["Swap JBOG1 <> JBOG6", "Swap JBOG3 <> JBOG5"],
     "JBOG1-JBOG5": ["Swap JBOG1 <> JBOG7", "Swap JBOG5 <> JBOG2"],
     "JBOG2-JBOG6": ["Swap JBOG2 <> JBOG4", "Swap JBOG6 <> JBOG3"],
+    "JBOG2-JBOG3": ["Swap JBOG2 <> JBOG7", "Swap JBOG3 <> JBOG5"], //
     "JBOG3-JBOG7": ["Swap JBOG3 <> JBOG5", "Swap JBOG7 <> JBOG4"],
     "JBOG4-JBOG5": ["Swap JBOG4 <> JBOG7", "Swap JBOG5 <> JBOG2"],
     "JBOG4-JBOG6": ["Swap JBOG4 <> JBOG2", "Swap JBOG6 <> JBOG1"],
@@ -501,4 +502,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     `;
     document.head.appendChild(style);
+
 });
