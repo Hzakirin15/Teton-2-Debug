@@ -468,48 +468,48 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Clear All functionality
-    document.getElementById('clearAllBtn').addEventListener('click', function() {
-        // Clear the swap instructions display
-        const swapInstructions = document.getElementById('swapInstructions');
-        swapInstructions.innerHTML = `
-            <div class="placeholder">
-                <i class="fas fa-info-circle"></i>
-                <p>Select two different JBOGs from the accelerators above to see swap instructions.</p>
-                <p class="example">Example output: Swap JBOG6(WAA7HN55102GY) <> JBOG1(WAA7HN55103GY), Swap JBOG7(WAA7HN55104GY) <> JBOG4(WAA7HN55102XY)</p>
-            </div>
-        `;
+
+
+    // Clear only serial numbers functionality
+    function clearAllSerialNumbers() {
+        // Get all serial number input fields
+        const serialInputs = document.querySelectorAll('.serial-input-inline');
         
-        // Clear any serial number inputs if they exist
-        // This depends on your JavaScript implementation
-        
-        // Optional: Show a notification
-        showNotification('All instructions cleared!', 'info');
-    });
-    
-    // Optional: Enhanced notification function to handle different types
-    function showNotification(message, type = 'success') {
-        const notification = document.getElementById('notification');
-        const icon = notification.querySelector('i');
-        const span = notification.querySelector('span');
-        
-        // Set icon based on type
-        if (type === 'success') {
-            icon.className = 'fas fa-check-circle';
-        } else if (type === 'info') {
-            icon.className = 'fas fa-info-circle';
-        } else if (type === 'warning') {
-            icon.className = 'fas fa-exclamation-triangle';
+        if (serialInputs.length === 0) {
+            showNotification('No serial numbers to clear', 'info');
+            return;
         }
         
-        span.textContent = message;
-        notification.classList.add('show');
+        // Clear each input field
+        serialInputs.forEach(input => {
+            input.value = ''; // Clear the input value
+            
+            // Remove from serialNumbers object using the input ID
+            if (serialNumbers[input.id]) {
+                delete serialNumbers[input.id];
+            }
+        });
         
-        setTimeout(() => {
-            notification.classList.remove('show');
-        }, 3000);
+        // Save the updated (empty) serial numbers to localStorage
+        saveSerialNumbers();
+        
+        // Show success notification
+        showNotification(`${serialInputs.length} serial number(s) cleared successfully!`, 'success');
+        
+        // Optional: Regenerate the instructions to update any displays
+        // This ensures any derived displays that show serial numbers are updated
+        if (selections.accelerator1 && selections.accelerator2) {
+            updateSwapInstructions();
+        }
     }
+    
+    // Add event listener for clear button
+    document.getElementById('clearSerialsBtn').addEventListener('click', clearAllSerialNumbers);
+    
 
+
+
+    
     
     // Copy all button event listener
     document.getElementById('copyAllBtn').addEventListener('click', copyAllInstructionsToClipboard);
@@ -547,4 +547,5 @@ document.addEventListener('DOMContentLoaded', function() {
     document.head.appendChild(style);
 
 });
+
 
