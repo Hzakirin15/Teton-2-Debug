@@ -10,7 +10,6 @@ const swapRules = {
     "JBOG1-JBOG3": ["Swap JBOG1 <> JBOG6", "Swap JBOG3 <> JBOG5"],
     "JBOG1-JBOG5": ["Swap JBOG1 <> JBOG7", "Swap JBOG5 <> JBOG2"],
     "JBOG2-JBOG6": ["Swap JBOG2 <> JBOG4", "Swap JBOG6 <> JBOG3"],
-    "JBOG2-JBOG3": ["Swap JBOG2 <> JBOG7", "Swap JBOG3 <> JBOG5"], //
     "JBOG3-JBOG7": ["Swap JBOG3 <> JBOG5", "Swap JBOG7 <> JBOG4"],
     "JBOG4-JBOG5": ["Swap JBOG4 <> JBOG7", "Swap JBOG5 <> JBOG2"],
     "JBOG4-JBOG6": ["Swap JBOG4 <> JBOG2", "Swap JBOG6 <> JBOG1"],
@@ -103,6 +102,11 @@ function updateSwapInstructions() {
         return;
     }
     
+    // Clear serial numbers when JBOG selections change
+    // This ensures serials don't persist across different JBOG combinations
+    serialNumbers = {};
+    saveSerialNumbers();
+    
     // Create the key for the swap rules (sorted to handle both orders)
     const key1 = `${selections.accelerator1}-${selections.accelerator2}`;
     const key2 = `${selections.accelerator2}-${selections.accelerator1}`;
@@ -189,6 +193,37 @@ function displaySwapInstructions(swapRule) {
             }
         });
     });
+}
+
+// ============================
+// CLEAR SERIAL NUMBERS FUNCTIONALITY
+// ============================
+
+// Function to clear all serial numbers
+function clearAllSerialNumbers() {
+    console.log("Clear serials button clicked"); // Debug log
+    
+    // Get all serial number input fields
+    const serialInputs = document.querySelectorAll('.serial-input-inline');
+    
+    if (serialInputs.length === 0) {
+        showNotification('No serial numbers to clear', 'info');
+        return;
+    }
+    
+    // Clear each input field
+    serialInputs.forEach(input => {
+        input.value = ''; // Clear the input value
+    });
+    
+    // Clear the serialNumbers object completely
+    serialNumbers = {};
+    
+    // Save the empty serial numbers to localStorage
+    saveSerialNumbers();
+    
+    // Show success notification
+    showNotification(`${serialInputs.length} serial number(s) cleared successfully!`, 'success');
 }
 
 // Copy all instructions to clipboard - FIXED VERSION
@@ -328,8 +363,24 @@ function loadNotes() {
 }
 
 // Display notes in the UI
-
-
+function displayNotes(notes) {
+    const notesDisplay = document.getElementById('notesDisplay');
+    notesDisplay.innerHTML = '';
+    
+    notes.forEach((note, index) => {
+        const noteItem = document.createElement('div');
+        noteItem.className = 'note-item';
+        noteItem.innerHTML = `
+            <span class="note-number">${index + 1}.</span>
+            <span class="note-text">${note}</span>
+        `;
+        notesDisplay.appendChild(noteItem);
+    });
+    
+    // Also populate textarea for editing
+    const notesTextarea = document.getElementById('notesTextarea');
+    notesTextarea.value = notes.join('\n');
+}
 
 // Save notes to localStorage
 function saveNotes() {
@@ -413,6 +464,12 @@ function showNotification(message, type = 'success') {
     if (type === 'error') {
         icon.className = 'fas fa-exclamation-circle';
         notification.style.backgroundColor = '#d32f2f';
+    } else if (type === 'info') {
+        icon.className = 'fas fa-info-circle';
+        notification.style.backgroundColor = '#0288D1';
+    } else if (type === 'warning') {
+        icon.className = 'fas fa-exclamation-triangle';
+        notification.style.backgroundColor = '#FFA000';
     } else {
         icon.className = 'fas fa-check-circle';
         notification.style.backgroundColor = '#2E7D32';
@@ -440,13 +497,17 @@ document.addEventListener('DOMContentLoaded', function() {
         option.addEventListener('click', function() {
             console.log("Accelerator 1 clicked:", this.getAttribute('data-value'));
             const value = this.getAttribute('data-value');
-            selections.accelerator1 = value;
-            selectOption('accelerator1', value);
-            document.getElementById('selected1').textContent = value;
-            saveSelections();
             
-            if (selections.accelerator1 && selections.accelerator2) {
-                updateSwapInstructions();
+            // Check if selection actually changed
+            if (selections.accelerator1 !== value) {
+                selections.accelerator1 = value;
+                selectOption('accelerator1', value);
+                document.getElementById('selected1').textContent = value;
+                saveSelections();
+                
+                if (selections.accelerator1 && selections.accelerator2) {
+                    updateSwapInstructions();
+                }
             }
         });
     });
@@ -457,38 +518,39 @@ document.addEventListener('DOMContentLoaded', function() {
         option.addEventListener('click', function() {
             console.log("Accelerator 2 clicked:", this.getAttribute('data-value'));
             const value = this.getAttribute('data-value');
-            selections.accelerator2 = value;
-            selectOption('accelerator2', value);
-            document.getElementById('selected2').textContent = value;
-            saveSelections();
             
-            if (selections.accelerator1 && selections.accelerator2) {
-                updateSwapInstructions();
+            // Check if selection actually changed
+            if (selections.accelerator2 !== value) {
+                selections.accelerator2 = value;
+                selectOption('accelerator2', value);
+                document.getElementById('selected2').textContent = value;
+                saveSelections();
+                
+                if (selections.accelerator1 && selections.accelerator2) {
+                    updateSwapInstructions();
+                }
             }
         });
     });
 
-//--------------------------------------------------------------------Modify Section-----------------------------------------------------------
-    
+    // ===== CLEAR BUTTON FUNCTIONALITY =====
+    // Clear serials button event listener
+    const clearBtn = document.getElementById('clearSerialsBtn');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', clearAllSerialNumbers);
+        console.log("Clear button listener attached successfully");
+    } else {
+        console.error("Clear button not found! Make sure button ID is 'clearSerialsBtn'");
+    }
 
-    
-
-
-
-
-
-
-
-
-
-    
-
-//---------------------------------------------------End Modify section-----------------------------------------------------------------
-    // Add clear button event listener
-    document.getElementById('clearSerialsBtn').addEventListener('click', clearAllSerialNumbers);
-    
     // Copy all button event listener
-    document.getElementById('copyAllBtn').addEventListener('click', copyAllInstructionsToClipboard);
+    const copyBtn = document.getElementById('copyAllBtn');
+    if (copyBtn) {
+        copyBtn.addEventListener('click', copyAllInstructionsToClipboard);
+        console.log("Copy button listener attached");
+    } else {
+        console.error("Copy button not found!");
+    }
     
     // ===== NOTES FUNCTIONALITY =====
     // Load saved notes
@@ -517,14 +579,8 @@ document.addEventListener('DOMContentLoaded', function() {
             background-color: #d24900;
             border-color: #ffee00;
             color: rgb(212, 255, 0);
-            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);;
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
         }
     `;
     document.head.appendChild(style);
-
 });
-
-
-
-
-
