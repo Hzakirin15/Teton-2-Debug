@@ -469,136 +469,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 //--------------------------------------------------------------------Modify Section-----------------------------------------------------------
-    // Update swap instructions based on selections
-    function updateSwapInstructions() {
-        const swapInstructions = document.getElementById('swapInstructions');
-        
-        // Check if both accelerators have selections
-        if (!selections.accelerator1 || !selections.accelerator2) {
-            return;
-        }
-        
-        // Check if same accelerator is selected twice
-        if (selections.accelerator1 === selections.accelerator2) {
-            swapInstructions.innerHTML = `
-                <div class="placeholder">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <p>Please select two different JBOGs from the accelerators.</p>
-                </div>
-            `;
-            return;
-        }
-        
-        // Clear serial numbers when JBOG selections change
-        clearSerialNumbersForNewSelection();
-        
-        // Create the key for the swap rules (sorted to handle both orders)
-        const key1 = `${selections.accelerator1}-${selections.accelerator2}`;
-        const key2 = `${selections.accelerator2}-${selections.accelerator1}`;
-        
-        const swapRule = swapRules[key1] || swapRules[key2];
-        
-        if (swapRule) {
-            // Display swap instructions
-            displaySwapInstructions(swapRule);
-        } else {
-            swapInstructions.innerHTML = `
-                <div class="placeholder">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <p>No swap rule found for the selected combination (${selections.accelerator1} and ${selections.accelerator2}).</p>
-                </div>
-            `;
-        }
-    }
     
-    // New function to clear serial numbers when JBOG selections change
-    function clearSerialNumbersForNewSelection() {
-        // Clear all serial numbers from the serialNumbers object
-        serialNumbers = {};
-        
-        // Save empty serial numbers to localStorage
-        saveSerialNumbers();
-        
-        // Optional: Show a subtle notification that serials were cleared
-        // Uncomment if you want this notification
-        // showNotification('Serial numbers cleared for new JBOG selection', 'info');
-    }
-    
-    // Also update the accelerator click handlers to clear serials when selections change
-
-
-    // Set up event listeners for accelerator 1 options
-    const accelerator1Options = document.querySelectorAll('#accelerator1 .option');
-    accelerator1Options.forEach(option => {
-        option.addEventListener('click', function() {
-            console.log("Accelerator 1 clicked:", this.getAttribute('data-value'));
-            const value = this.getAttribute('data-value');
-            
-            // Check if selection actually changed
-            if (selections.accelerator1 !== value) {
-                selections.accelerator1 = value;
-                selectOption('accelerator1', value);
-                document.getElementById('selected1').textContent = value;
-                saveSelections();
-                
-                // Clear serial numbers when selection changes
-                if (selections.accelerator1 && selections.accelerator2) {
-                    clearSerialNumbersForNewSelection();
-                    updateSwapInstructions();
-                }
-            }
-        });
-    });
-    
-    // Set up event listeners for accelerator 2 options
-    const accelerator2Options = document.querySelectorAll('#accelerator2 .option');
-    accelerator2Options.forEach(option => {
-        option.addEventListener('click', function() {
-            console.log("Accelerator 2 clicked:", this.getAttribute('data-value'));
-            const value = this.getAttribute('data-value');
-            
-            // Check if selection actually changed
-            if (selections.accelerator2 !== value) {
-                selections.accelerator2 = value;
-                selectOption('accelerator2', value);
-                document.getElementById('selected2').textContent = value;
-                saveSelections();
-                
-                // Clear serial numbers when selection changes
-                if (selections.accelerator1 && selections.accelerator2) {
-                    clearSerialNumbersForNewSelection();
-                    updateSwapInstructions();
-                }
-            }
-        });
-    });
-
-
-
-    // Clear only serial numbers functionality
-    function clearAllSerialNumbers() {
-        // Get all serial number input fields
-        const serialInputs = document.querySelectorAll('.serial-input-inline');
-        
-        if (serialInputs.length === 0) {
-            showNotification('No serial numbers to clear', 'info');
-            return;
-        }
-        
-        // Clear each input field
-        serialInputs.forEach(input => {
-            input.value = ''; // Clear the input value
-        });
-        
-        // Clear the serialNumbers object completely
-        serialNumbers = {};
-        
-        // Save the empty serial numbers to localStorage
-        saveSerialNumbers();
-        
-        // Show success notification
-        showNotification(`${serialInputs.length} serial number(s) cleared successfully!`, 'success');
-    }
 
     
 
@@ -652,6 +523,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.head.appendChild(style);
 
 });
+
 
 
 
