@@ -509,7 +509,63 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+    // Enhanced show notification function with different types
+    function showNotification(message, type = 'success') {
+        const notification = document.getElementById('notification');
+        const icon = notification.querySelector('i');
+        const text = notification.querySelector('span');
+        
+        text.textContent = message;
+        
+        // Set icon and color based on type
+        switch(type) {
+            case 'success':
+                icon.className = 'fas fa-check-circle';
+                notification.style.backgroundColor = '#2E7D32'; // Green
+                break;
+            case 'error':
+                icon.className = 'fas fa-exclamation-circle';
+                notification.style.backgroundColor = '#d32f2f'; // Red
+                break;
+            case 'info':
+                icon.className = 'fas fa-info-circle';
+                notification.style.backgroundColor = '#0288D1'; // Blue
+                break;
+            case 'warning':
+                icon.className = 'fas fa-exclamation-triangle';
+                notification.style.backgroundColor = '#FFA000'; // Orange
+                break;
+        }
+        
+        notification.classList.add('show');
+        
+        // Hide notification after 3 seconds
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 3000);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
+
+
+    // Add clear button event listener
+    document.getElementById('clearSerialsBtn').addEventListener('click', clearAllSerialNumbers);
     
     // Copy all button event listener
     document.getElementById('copyAllBtn').addEventListener('click', copyAllInstructionsToClipboard);
@@ -547,5 +603,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.head.appendChild(style);
 
 });
+
 
 
