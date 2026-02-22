@@ -779,4 +779,57 @@ body {
     .edit-controls {
         flex-direction: column;
     }
+
+}
+
+/* Button group for output header */
+.button-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* Clear button style */
+.clear-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.clear-btn:hover {
+    background-color: #d32f2f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(244, 67, 54, 0.4);
+}
+
+.clear-btn:active {
+    transform: translateY(0);
+}
+
+/* Update existing copy button for better spacing */
+.copy-btn {
+    margin-left: 0; /* Remove any existing margin if present */
+}
+
+/* Responsive adjustment for mobile */
+@media (max-width: 768px) {
+    .button-group {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .clear-btn,
+    .copy-btn {
+        width: 100%;
+        justify-content: center;
+    }
 }
