@@ -467,6 +467,49 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Clear All functionality
+    document.getElementById('clearAllBtn').addEventListener('click', function() {
+        // Clear the swap instructions display
+        const swapInstructions = document.getElementById('swapInstructions');
+        swapInstructions.innerHTML = `
+            <div class="placeholder">
+                <i class="fas fa-info-circle"></i>
+                <p>Select two different JBOGs from the accelerators above to see swap instructions.</p>
+                <p class="example">Example output: Swap JBOG6(WAA7HN55102GY) <> JBOG1(WAA7HN55103GY), Swap JBOG7(WAA7HN55104GY) <> JBOG4(WAA7HN55102XY)</p>
+            </div>
+        `;
+        
+        // Clear any serial number inputs if they exist
+        // This depends on your JavaScript implementation
+        
+        // Optional: Show a notification
+        showNotification('All instructions cleared!', 'info');
+    });
+    
+    // Optional: Enhanced notification function to handle different types
+    function showNotification(message, type = 'success') {
+        const notification = document.getElementById('notification');
+        const icon = notification.querySelector('i');
+        const span = notification.querySelector('span');
+        
+        // Set icon based on type
+        if (type === 'success') {
+            icon.className = 'fas fa-check-circle';
+        } else if (type === 'info') {
+            icon.className = 'fas fa-info-circle';
+        } else if (type === 'warning') {
+            icon.className = 'fas fa-exclamation-triangle';
+        }
+        
+        span.textContent = message;
+        notification.classList.add('show');
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 3000);
+    }
+
     
     // Copy all button event listener
     document.getElementById('copyAllBtn').addEventListener('click', copyAllInstructionsToClipboard);
@@ -504,3 +547,4 @@ document.addEventListener('DOMContentLoaded', function() {
     document.head.appendChild(style);
 
 });
+
